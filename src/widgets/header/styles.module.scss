@@ -1,0 +1,19 @@
+.header {
+  background-color: #3d003d;
+  width: 100%;
+  padding: 0 30px;
+
+  ul {
+    display: flex;
+    gap: 10px;
+
+    li {
+      a {
+        padding: 15px 15px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}

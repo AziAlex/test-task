@@ -1,0 +1,21 @@
+.wrap {
+  padding: 40px 30px;
+
+  & > ul {
+    display: flex;
+    gap: 20px;
+
+    li {
+      & > button {
+        background-color: #4d4d4d;
+        color: #fff;
+        padding: 30px 40px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+}

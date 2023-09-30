@@ -1,0 +1,21 @@
+.column {
+  height: fit-content;
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 260px;
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  & > h3 {
+    padding: 8px;
+  }
+
+  .tasks {
+    flex-grow: 1;
+    padding: 8px;
+  }
+}
