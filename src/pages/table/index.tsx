@@ -1,107 +1,40 @@
-import React, {useState} from 'react';
-import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
-import {IColumns, initialItems} from "./lib/constants";
-import Column from "./ui/columns";
-import styles from "./styles.module.scss"
+import Table from "./ui/table";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {IColumns} from "./lib/types";
+import {useParams} from "react-router-dom";
 
-const Table = () => {
-  const [items, setItems] = useState(initialItems);
+const TablePage = () => {
+  const [table, setTable] = useState<IColumns | null>(null);
+  const param = useParams()
 
-  const onDragEnd = (result: DropResult) => {
-    const {destination, source, draggableId, type} = result
-
-    if (!destination) return;
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) return;
-
-    if (type === 'column') {
-      const newColumnOrder = Array.from(items.columnOrder);
-      newColumnOrder.splice(source.index, 1);
-      newColumnOrder.splice(destination.index, 0, draggableId);
-
-      const newState: IColumns = {
-        ...items,
-        columnOrder: newColumnOrder,
+  useEffect(() => {
+    (async () => {
+      try {
+        const {data} = await axios.get<IColumns>(`http://localhost:3001/tableColumns/${param.id}`);
+        setTable(data)
+      } catch (e) {
+        console.log(`роезошла ошибка! Таблица ${param.id} не найдена.`)
       }
-      setItems(newState)
-      return
-    }
+    })()
+  }, []);
 
-    const start = items.columns[source.droppableId];
-    const finish = items.columns[destination.droppableId];
-
-    if (start === finish) {
-      const newTaskId = Array.from(start.taskIds);
-      newTaskId.splice(source.index, 1);
-      newTaskId.splice(destination.index, 0, draggableId);
-
-      const newColumn = {
-        ...start,
-        taskIds: newTaskId,
-      }
-
-      const newState: IColumns = {
-        ...items,
-        columns: {
-          ...items.columns,
-          [newColumn.id]: newColumn
+  useEffect(() => {
+    (async () => {
+      try {
+        if (table) {
+          await axios.put<IColumns>(`http://localhost:3001/tableColumns/${param.id}`, table);
         }
+      } catch (e) {
+        console.log(`роезошла ошибка! Таблица ${param.id} не обновлена.`)
       }
-      setItems(newState)
-      return;
-    }
+    })()
+  }, [table]);
 
-    const startTaskId = Array.from(start.taskIds);
-    startTaskId.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      taskIds: startTaskId,
-    }
-
-    const finishTaskId = Array.from(finish.taskIds);
-    finishTaskId.splice(destination.index, 0, draggableId);
-    const newFinish = {
-      ...finish,
-      taskIds: finishTaskId,
-    }
-
-    const newState: IColumns = {
-      ...items,
-      columns: {
-        ...items.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      }
-    }
-    setItems(newState)
-  };
-
-  return (
-    <div>
-      <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-        <Droppable droppableId="All-columns" direction="horizontal" type="column">
-          {(provided) => (
-            <div
-              className={styles.container}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {items.columnOrder.map((columnId, index) => {
-                const column = items.columns[columnId];
-                const tasks = column.taskIds.map((taskId) => items.tasks[taskId]);
-
-                return <Column key={column.id} index={index} column={column} tasks={tasks}/>
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
-  );
+  if (!table) {
+    return <h1>Loading...</h1>;
+  }
+  return <Table table={table} setTable={setTable}/>
 };
 
-export default Table;
+export default TablePage;

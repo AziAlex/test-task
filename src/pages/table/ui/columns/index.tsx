@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 
 import styles from "./styles.module.scss"
-import {IColumn, ITask} from "../../lib/constants";
+import {IColumn, ITask} from "../../lib/types";
 import {Draggable, Droppable} from "react-beautiful-dnd";
 import Task from "../task";
 

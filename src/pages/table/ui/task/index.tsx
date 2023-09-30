@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {ITask} from "../../lib/constants";
+import {ITask} from "../../lib/types";
 import {Draggable} from "react-beautiful-dnd";
 import styles from "./styles.module.scss"
 
