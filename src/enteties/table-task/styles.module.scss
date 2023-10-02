@@ -1,0 +1,27 @@
+.item {
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: white;
+  position: relative;
+
+  p {
+    overflow-x: hidden;
+  }
+
+  .delete {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    top: -5px;
+    right: -5px;
+    width: 25px;
+    height: 25px;
+  }
+  &:hover {
+    .delete {
+      display: block;
+    }
+  }
+}

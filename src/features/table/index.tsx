@@ -1,21 +1,27 @@
 import React, {FC} from 'react';
 import {DragDropContext, Droppable, DropResult} from "react-beautiful-dnd";
-import {IColumns} from "../../lib/types";
-import styles from "../../styles.module.scss";
-import Column from "../columns";
+
+import {IColumns} from "../../shared/types/table";
+import Column from "./ui/columns";
+
+import styles from "./styles.module.scss";
+import CreateElement from "./ui/create-element";
+import {useDispatch} from "react-redux";
+import {updateColumnAction} from "../../app/redux/actions/columnfetchAction";
 
 interface IProps {
   table: IColumns
-  setTable: (table: IColumns) => void
 }
 
-const Table: FC<IProps> = ({table, setTable}) => {
+const Table: FC<IProps> = ({table}) => {
+  const dispatch = useDispatch()
+
   const onDragEnd = (result: DropResult) => {
     const {destination, source, draggableId, type} = result;
 
     if (!destination) return;
 
-    const newState = {...table}; // Копируем исходное состояние
+    const newState: IColumns = {...table}; // Копируем исходное состояние
 
     if (type === 'column') {
       // Перемещение колонок
@@ -47,12 +53,10 @@ const Table: FC<IProps> = ({table, setTable}) => {
         newState.columns[finish.id].taskIds = finishTaskIds;
       }
     }
-
-    setTable(newState);
+    dispatch(updateColumnAction(newState))
   };
-
   return (
-    <div>
+    <>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <Droppable droppableId="All-columns" direction="horizontal" type="column">
           {(provided) => (
@@ -65,14 +69,15 @@ const Table: FC<IProps> = ({table, setTable}) => {
                 const column = table.columns[columnId];
                 const tasks = column.taskIds.map((taskId) => table.tasks[taskId]);
 
-                return <Column key={column.id} index={index} column={column} tasks={tasks}/>
+                return <Column key={index} index={index} column={column} tasks={tasks}/>
               })}
               {provided.placeholder}
+              <CreateElement />
             </div>
           )}
         </Droppable>
       </DragDropContext>
-    </div>
+    </>
   );
 };
 

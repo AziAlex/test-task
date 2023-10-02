@@ -6,6 +6,7 @@
   width: 100%;
   max-width: 260px;
   background-color: white;
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -17,5 +18,14 @@
   .tasks {
     flex-grow: 1;
     padding: 8px;
+  }
+
+  .delete {
+    display: none;
+  }
+  &:hover {
+    .delete {
+      display: block;
+    }
   }
 }

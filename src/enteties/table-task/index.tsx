@@ -1,14 +1,18 @@
 import React, {FC} from 'react';
-import {ITask} from "../../lib/types";
 import {Draggable} from "react-beautiful-dnd";
+
+import DeleteElement from "../../features/table/ui/delete-elemnt";
+import {ITask} from "../../shared/types/table";
+
 import styles from "./styles.module.scss"
 
 interface IProps {
   index: number
   task: ITask
+  columnId: string
 }
 
-const Task: FC<IProps> = ({task, index}) => {
+const Task: FC<IProps> = ({task, index, columnId}) => {
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided) => (
@@ -18,7 +22,10 @@ const Task: FC<IProps> = ({task, index}) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {task.id}
+          <p>{task.content}</p>
+          <div className={styles.delete}>
+            <DeleteElement columnId={columnId} id={task.id} type="task"/>
+          </div>
         </div>
       )}
     </Draggable>

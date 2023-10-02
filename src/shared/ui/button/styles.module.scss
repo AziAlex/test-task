@@ -1,0 +1,14 @@
+@import "/src/app/styles/variables";
+
+.button {
+  padding: 4px 8px;
+  background-color: $blue-400;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+
+  &:hover {
+    background-color:  $blue-300;
+  }
+}

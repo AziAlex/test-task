@@ -4,7 +4,7 @@ import {Route, Routes} from "react-router-dom";
 import {Layout} from "../features/layout";
 import Projects from "../pages/projects";
 import NotFound from "../pages/not-found";
-import Table from "../pages/table";
+import Table from "../pages/table-page";
 
 function App() {
   return (
