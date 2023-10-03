@@ -43,6 +43,6 @@ const Column: FC<IProps> = ({column, tasks, index}) => (
       </div>
     )}
   </Draggable>
-);
+)
 
 export default Column;

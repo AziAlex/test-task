@@ -55,6 +55,7 @@ const Table: FC<IProps> = ({table}) => {
     }
     dispatch(updateColumnAction(newState))
   };
+
   return (
     <>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
@@ -69,10 +70,10 @@ const Table: FC<IProps> = ({table}) => {
                 const column = table.columns[columnId];
                 const tasks = column.taskIds.map((taskId) => table.tasks[taskId]);
 
-                return <Column key={index} index={index} column={column} tasks={tasks}/>
+                return <Column key={columnId} index={index} column={column} tasks={tasks}/>
               })}
               {provided.placeholder}
-              <CreateElement />
+              <CreateElement/>
             </div>
           )}
         </Droppable>

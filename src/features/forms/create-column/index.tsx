@@ -1,5 +1,7 @@
 import React, {FC, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {v4 as uuidv4} from 'uuid';
+
 
 import Button from "../../../shared/ui/button";
 import Input from "../../../shared/ui/inputs/input";
@@ -27,43 +29,43 @@ const CreateColumnForm: FC<IProps> = ({setActive, type, columnId = ""}) => {
     const newState: IColumns = {...table}
 
     if (type === "textarea") {
-      const newTaskId = table.tasks ? `task-${Object.keys(table.tasks).length + 1}` : `task-0`
+      const newId = uuidv4()
 
       if (table.tasks) {
-        newState.tasks[newTaskId] = {
-          id: newTaskId,
+        newState.tasks[newId] = {
+          id: newId,
           content: name
         }
       } else {
         newState.tasks = {
-          [newTaskId]: {
-            id: newTaskId,
+          [newId]: {
+            id: newId,
             content: name
           }
         }
       }
 
-      newState.columns[columnId].taskIds.push(newTaskId)
+      newState.columns[columnId].taskIds.push(newId)
     } else {
-      const newColumnId = table.columns ? `column-${table.columnOrder.length + 1}` : `column-0`
+      const newId = uuidv4()
 
       if (table.columns) {
-        newState.columns[newColumnId] = {
-          id: newColumnId,
+        newState.columns[newId] = {
+          id: newId,
           title: name,
           taskIds: []
         }
       } else {
         newState.columns = {
-          [newColumnId]: {
-            id: newColumnId,
+          [newId]: {
+            id: newId,
             title: name,
             taskIds: []
           }
         }
       }
 
-      newState.columnOrder.push(newColumnId)
+      newState.columnOrder.push(newId)
     }
 
     dispatch(updateColumnAction(newState))

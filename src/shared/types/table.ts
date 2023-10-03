@@ -8,6 +8,7 @@ export interface ITable {
 }
 
 export interface IColumn {
+  _id?: string;
   id: string;
   title: string;
   taskIds: string[];
