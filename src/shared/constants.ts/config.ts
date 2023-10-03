@@ -1,0 +1,1 @@
+export const API_URL = 'https://kind-erin-pike-tux.cyclic.cloud/api'

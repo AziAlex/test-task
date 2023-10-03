@@ -27,21 +27,42 @@ const CreateColumnForm: FC<IProps> = ({setActive, type, columnId = ""}) => {
     const newState: IColumns = {...table}
 
     if (type === "textarea") {
-      const newTaskId = `task-${Object.keys(table.tasks).length + 1}`
+      const newTaskId = table.tasks ? `task-${Object.keys(table.tasks).length + 1}` : `task-0`
 
-      newState.tasks[newTaskId] = {
-        id: newTaskId,
-        content: name
+      if (table.tasks) {
+        newState.tasks[newTaskId] = {
+          id: newTaskId,
+          content: name
+        }
+      } else {
+        newState.tasks = {
+          [newTaskId]: {
+            id: newTaskId,
+            content: name
+          }
+        }
       }
+
       newState.columns[columnId].taskIds.push(newTaskId)
     } else {
-      const newColumnId = `column-${table.columnOrder.length + 1}`
+      const newColumnId = table.columns ? `column-${table.columnOrder.length + 1}` : `column-0`
 
-      newState.columns[newColumnId] = {
-        id: newColumnId,
-        title: name,
-        taskIds: []
+      if (table.columns) {
+        newState.columns[newColumnId] = {
+          id: newColumnId,
+          title: name,
+          taskIds: []
+        }
+      } else {
+        newState.columns = {
+          [newColumnId]: {
+            id: newColumnId,
+            title: name,
+            taskIds: []
+          }
+        }
       }
+
       newState.columnOrder.push(newColumnId)
     }
 
